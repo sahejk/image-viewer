@@ -60,6 +60,25 @@ const styles = theme => ({
 
 });
 
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
 const WhiteTextTypography = withStyles({
   root: {
     color: "#FFFFFF"
@@ -73,6 +92,7 @@ class Header extends Component {
         this.state = {
             menuIsOpen: false,
             ownerInfo: [],
+            anchorElement: null,
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true
         }
         this.baseUrl = "https://graph.instagram.com/me/?fields=account_type,id,media_count,username&access_token=IGQVJVRkxNdEJxZAldLYXBuRGhBQjd1Wk4wRzhwQ2hlRG1McVhUX0NWdllPY0Nrc1RNSVBjLU1nOXVkUHNuUThxanJWdFR3RnJUSFJFbkYzdFU1WUtLa2hLb0JQWlBDVzFydl83Y0l3";
@@ -89,8 +109,9 @@ class Header extends Component {
         });
     }
 
-    openMenuHandler = () => {
+    openMenuHandler = (event) => {
         this.setState({
+            anchorElement: event.currentTarget,
             menuIsOpen: true,
         });
 
@@ -126,14 +147,12 @@ class Header extends Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.grow}>
+            <div className={classes.grow} styles={{overflow:'auto',display:'flex'}}>
                 <AppBar className={classes.appHeader} position="static">
                     <Toolbar>
-
                         <div className={classes.appHeader}>
                             <WhiteTextTypography variant="h6" noWrap>Image Viewer</WhiteTextTypography>
                         </div>
-                        <>
                         {this.props.showSearchBox && <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
@@ -147,30 +166,19 @@ class Header extends Component {
                             />
                         </div>
                         }
-                        {this.state.loggedIn && <Avatar className="avatar">
-                            <img aria-controls="simpleMenu" onClick={this.openMenuHandler} src={profile_picture} alt={"logo"} /></Avatar>}
-                        <div>
-                            <Menu
-                                id="menu-appbar"
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={this.state.menuIsOpen}
-                                onClose={this.closeMenuHandler}
-
-                            >
-                                <Link to='/profile'>
-                                    <MenuItem >My Account</MenuItem></Link><hr />
-                                <Link to='/'>
-                                    <MenuItem onClick={this.logoutHandler}>Logout</MenuItem></Link>
-                            </Menu>
-                        </div>
-                        </>
+                        {this.state.loggedIn && <Avatar alt={"logo"}  className="avatar" src={profile_picture} onClick={this.openMenuHandler}/>}
+                            <div styles={{top:'-54vh',position:'absolute'}}>
+                                    <StyledMenu
+                                            id="customized-menu"
+                                            anchorEl={this.state.anchorElement}
+                                            keepMounted
+                                            open={this.state.menuIsOpen}
+                                            onClose={this.closeMenuHandler}
+                                        >
+                                    <MenuItem ><Link to='/profile'>My Account </Link></MenuItem><hr />
+                                    <MenuItem onClick={this.logoutHandler}><Link to='/'>Logout</Link></MenuItem>
+                            </StyledMenu>
+                            </div>
                     </Toolbar>
                 </AppBar>
             </div>

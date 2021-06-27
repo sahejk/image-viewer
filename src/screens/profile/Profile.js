@@ -50,11 +50,11 @@ const styles = theme => ({
     },
     bigAvatar2: {
         marginTop: '20px',
-        marginRight: '20px',
-        width: '100px',
-        height: '100px',
+        marginRight: '24px',
+        width: '120px',
+        height: '120px',
         float: 'center',
-        display: 'flex'
+        display: 'flex',
     },
     gridList: {
         width: 'calc(100vw - 400px)',
@@ -233,7 +233,7 @@ class Profile extends Component {
 
                         <div className="column-center">
                             <div className="row1">
-                                <div className="col-left">
+                                <div className="col-left" style={{marginRight:'12px'}}>
                                     {<Avatar src={profile_picture} className={classes.bigAvatar2}/>}
                                 </div>
 
