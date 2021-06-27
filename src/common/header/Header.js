@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Profile from '../../screens/profile/Profile';
 import { Link } from 'react-router-dom';
+import profile_picture from '../../assets/icon/profile_pic.png';
 
 
 const styles = theme => ({
@@ -67,7 +68,7 @@ class Header extends Component {
             ownerInfo: [],
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true
         }
-        this.baseUrl = "https://api.instagram.com/v1/users/self/?access_token=8661035776.d0fcd39.39f63ab2f88d4f9c92b0862729ee2784";
+        this.baseUrl = "https://graph.instagram.com/me/?fields=account_type,id,media_count,username&access_token=IGQVJVRkxNdEJxZAldLYXBuRGhBQjd1Wk4wRzhwQ2hlRG1McVhUX0NWdllPY0Nrc1RNSVBjLU1nOXVkUHNuUThxanJWdFR3RnJUSFJFbkYzdFU1WUtLa2hLb0JQWlBDVzFydl83Y0l3";
     }
 
     profilePageLinkHandler = () => {
@@ -104,7 +105,7 @@ class Header extends Component {
         xhr.addEventListener("readystatechange", function () {
             if (this.readyState === 4) {
                 that.setState({
-                    ownerInfo: JSON.parse(this.responseText).data
+                    ownerInfo: JSON.parse(this.responseText)
 
                 });
             }
@@ -140,7 +141,7 @@ class Header extends Component {
                             />
                         </div>
                         {<Avatar className="avatar">
-                            <img aria-controls="simpleMenu" onClick={this.openMenuHandler} src={this.state.ownerInfo.profile_picture} alt={"logo"} /></Avatar>}
+                            <img aria-controls="simpleMenu" onClick={this.openMenuHandler} src={profile_picture} alt={"logo"} /></Avatar>}
                         <div>
                             <Menu
                                 id="menu-appbar"
