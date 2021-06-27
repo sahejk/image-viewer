@@ -47,10 +47,10 @@
   color:red;
 }
 .likesFont {
-  font-size: 200px;
   display:flex;
-  justify-content: flex-start;
-  vertical-align: center;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
 }
 .hash-tags {
   font-size: 16px;

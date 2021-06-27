@@ -12,13 +12,17 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Header from '../../common/header/Header';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
-import hearticon from '../../assets/icon/hearticon.svg';
 import profile_picture from '../../assets/icon/profile_pic.png';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 const styles = theme => ({
+    icon: {
+        margin: '2px',
+        fontSize: 32,
+     },
     root: {
         width: '100%',
     },
@@ -48,6 +52,8 @@ const styles = theme => ({
     },
 });
 
+const LIKES = 10;
+
 /*Class component Home defined with constructor & it's states */
 
 class Home extends Component {
@@ -60,6 +66,8 @@ class Home extends Component {
             anchorEl:null,
             imagecomment:"",
             addComment:"dispComment",
+            likesIdMap:[],
+            commentsIdMap:[],
         }
     }
 
@@ -69,9 +77,9 @@ class Home extends Component {
         this.setState({imagecomment: e.target.value});
     }
 
-    addCommentOnClickHandler = (e) => {
-        this.setState({addedComment :this.state.imagecomment});
-
+    addCommentOnClickHandler = (id, value) => {
+        this.setState({addedComment :value, commentsIdMap:[...this.state.commentsIdMap.filter(map => map.id !== id),{id:id,comments:[...this.state.commentsIdMap.find(map => map.id === id).comments,value]}]});
+        document.getElementById(`imagecomment_${id}`).value = null
     }
 
     /*Code written to make two API calls as per the definitions provided in problem statement */
@@ -101,7 +109,9 @@ class Home extends Component {
             if (this.readyState === 4) {
                 console.log(this.responseText);
                 that.setState({
-                    mediaInfo: JSON.parse(this.responseText).data
+                    mediaInfo: JSON.parse(this.responseText).data,
+                    likesIdMap: JSON.parse(this.responseText).data.map(image => ({id: image.id, count: LIKES, selected: false})),
+                    commentsIdMap: JSON.parse(this.responseText).data.map(image => ({id: image.id, comments: []}))
                 });
             }
         })
@@ -128,39 +138,42 @@ class Home extends Component {
                                 <Grid container className={classes.root} spacing={16}>
                                     <Grid item>
                                         <Card className={classes.card}>
-
                                             <CardHeader
                                                 avatar={
                                                     <Avatar src={profile_picture} / >
                                                 }
                                                 title={image.username}
                                                 subheader={new Date(image.timestamp).toUTCString()} />
-
-
                                             <CardContent>
-                                                <img src={image.media_url} alt={image.text} className="image-properties" />
+                                                <img src={image.media_url} alt={image.caption} className="image-properties" />
                                                 <hr />
+                                                <div style={{display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+                                                <div style={{height:'80%'}}>
                                                 <Typography variant="h6">{image.caption}</Typography>
                                                 <Typography><div className="hash-tags">#greatpeople #upgrad</div></Typography>
                                                 <div className="likesFont">
-                                                    <Typography variant="h5" >
-                                                        <img src={hearticon} alt={"heartlogoTransparent"}   onClick={() => this.iconClickHandler} />
-                                                        {10} Likes</Typography></div>
-                                                <br /><br />
-                                                <FormControl >
-                                                    <FormHelperText className={this.state.addComment}><div><Typography>: {this.state.addedComment}</Typography></div></FormHelperText>
-                                                </FormControl>
-                                                <br/>
-                                                <br/>
-                                                <FormControl>
+                                                <span onClick={(event)=>this.setState({likesIdMap: [...this.state.likesIdMap.filter(map => map.id!== image.id), {id:image.id,selected:!this.state.likesIdMap.find(map => map.id === image.id).selected, count:(!this.state.likesIdMap.find(map => map.id === image.id).selected) ? LIKES + 1 : LIKES}]})}>
+                                                {(this.state.likesIdMap.find(map => map.id === image.id).selected) ? <FavoriteIcon className={classes.icon} color="secondary"/>: <FavoriteBorderOutlinedIcon className={classes.icon} />}
+                                                </span>
+                                                <Typography variant="h5" >
+                                                    {this.state.likesIdMap.find(map => map.id === image.id).count} Likes
+                                                </Typography>
+                                                </div>
+                                                {this.state.commentsIdMap.find(map => map.id === image.id).comments.map(comment => <div style={{display:'flex', flexDirection:'row',alignItems:'center'}}>
+                                                <Typography variant="h6">{image.username}</Typography>
+                                                <Typography variant="subtitle1" style={{fontSize:'20px'}}>{`: ${comment}`}</Typography>
+                                                </div>)}
+                                                </div>
+                                                <div style={{flexDirection:'row',display:'flex',marginTop:'50px'}}>
+                                                <FormControl style={{width:'80%'}}>
                                                     <InputLabel htmlFor="imagecomment">Add a Comment</InputLabel>
-                                                    <Input id="imagecomment" type="text" onChange={this.imageCommentOnChangeChangeHandler} />
+                                                    <Input id={`imagecomment_${image.id}`} type="text" onChange={this.imageCommentOnChangeChangeHandler} />
                                                 </FormControl>
-                                                <Button id="addedcomment" variant="contained" color="primary" onClick={this.addCommentOnClickHandler}>ADD</Button>
+                                                <Button style={{width:'18%',marginLeft:'16px',marginRight:'16px'}} id="addedcomment" variant="contained" color="primary" onClick={()=> this.addCommentOnClickHandler(image.id, document.getElementById(`imagecomment_${image.id}`).value)}>ADD</Button>
+                                                </div>
+                                                </div>
                                             </CardContent>
-
                                         </Card>
-
                                     </Grid>
                                 </Grid>
                             </GridListTile>
