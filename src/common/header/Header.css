@@ -7,7 +7,6 @@
 .app-logo {
     color: #fff;
     font-size: 18px;
-
 }
 .avatar {
     margin-left: auto;
@@ -17,6 +16,7 @@ header.MuiPaper-root-17.MuiPaper-elevation4-23.MuiAppBar-root-8.MuiAppBar-positi
     color:black;
 }
 h6.MuiTypography-root-48.MuiTypography-h6-65.MuiTypography-noWrap-74.color {
+    background-color: #263238;
     color: #fff;
     font-size: 18px;
 }

@@ -16,6 +16,9 @@ import profile_picture from '../../assets/icon/profile_pic.png';
 
 
 const styles = theme => ({
+    appHeader: {
+        backgroundColor: '#263238',
+    },
     grow: {
         flexGrow: 1,
     },
@@ -57,7 +60,11 @@ const styles = theme => ({
 
 });
 
-
+const WhiteTextTypography = withStyles({
+  root: {
+    color: "#FFFFFF"
+  }
+})(Typography);
 
 class Header extends Component {
 
@@ -120,15 +127,14 @@ class Header extends Component {
 
         return (
             <div className={classes.grow}>
-                <AppBar position="static">
+                <AppBar className={classes.appHeader} position="static">
                     <Toolbar>
 
-                        <div>
-                            <Typography className={{ color: "app-logo" }} variant="h6" noWrap>Image Viewer</Typography>
+                        <div className={classes.appHeader}>
+                            <WhiteTextTypography variant="h6" noWrap>Image Viewer</WhiteTextTypography>
                         </div>
-
-
-                        <div className={classes.search}>
+                        <>
+                        {this.props.showSearchBox && <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
                             </div>
@@ -140,7 +146,8 @@ class Header extends Component {
                                 }}
                             />
                         </div>
-                        {<Avatar className="avatar">
+                        }
+                        {this.state.loggedIn && <Avatar className="avatar">
                             <img aria-controls="simpleMenu" onClick={this.openMenuHandler} src={profile_picture} alt={"logo"} /></Avatar>}
                         <div>
                             <Menu
@@ -163,7 +170,7 @@ class Header extends Component {
                                     <MenuItem onClick={this.logoutHandler}>Logout</MenuItem></Link>
                             </Menu>
                         </div>
-
+                        </>
                     </Toolbar>
                 </AppBar>
             </div>

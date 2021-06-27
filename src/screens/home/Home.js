@@ -118,7 +118,7 @@ class Home extends Component {
 
         return (
             <div>
-                <Header/>
+                <Header showSearchBox={true}/>
                 <div className= "cardStyle">
                     <br />
                     <GridList cellHeight={"auto"} className={classes.gridListMain} cols={2}>
