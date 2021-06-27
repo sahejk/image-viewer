@@ -6,13 +6,14 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Profile from '../../screens/profile/Profile';
 import { Link } from 'react-router-dom';
 import profile_picture from '../../assets/icon/profile_pic.png';
+import logo from '../../assets/icon/logo.svg';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
 
 
 const styles = theme => ({
@@ -150,35 +151,30 @@ class Header extends Component {
             <div className={classes.grow} styles={{overflow:'auto',display:'flex'}}>
                 <AppBar className={classes.appHeader} position="static">
                     <Toolbar>
+                        <div style={{alignItems:'center', display:'flex', flexDirection:'row',justifyContent:'space-between',width:'100%'}}>
                         <div className={classes.appHeader}>
                             <WhiteTextTypography variant="h6" noWrap>Image Viewer</WhiteTextTypography>
                         </div>
-                        {this.props.showSearchBox && <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="        Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                            />
-                        </div>
-                        }
+                        <div style={{alignItems:'center', display:'flex', flexDirection:'row'}}>
+                        {this.props.showSearchBox && <div className="searchBox" >
+                            <img src={logo} className="app-logo" alt="Search Logo" />
+                            <FormControl className="formControl">
+                                <Input className="searchText" type="text" placeholder="Search..." disableUnderline={true} onChange={this.props.searchChangeHandler} />
+                            </FormControl>
+                        </div>}
                         {this.state.loggedIn && <Avatar alt={"logo"}  className="avatar" src={profile_picture} onClick={this.openMenuHandler}/>}
-                            <div styles={{top:'-54vh',position:'absolute'}}>
-                                    <StyledMenu
-                                            id="customized-menu"
-                                            anchorEl={this.state.anchorElement}
-                                            keepMounted
-                                            open={this.state.menuIsOpen}
-                                            onClose={this.closeMenuHandler}
-                                        >
-                                    <MenuItem ><Link to='/profile'>My Account </Link></MenuItem><hr />
-                                    <MenuItem onClick={this.logoutHandler}><Link to='/'>Logout</Link></MenuItem>
-                            </StyledMenu>
-                            </div>
+                        </div>
+                        </div>
+                                <StyledMenu
+                                        id="customized-menu"
+                                        anchorEl={this.state.anchorElement}
+                                        keepMounted
+                                        open={this.state.menuIsOpen}
+                                        onClose={this.closeMenuHandler}
+                                    >
+                                <MenuItem ><Link to='/profile'>My Account </Link></MenuItem><hr />
+                                <MenuItem onClick={this.logoutHandler}><Link to='/'>Logout</Link></MenuItem>
+                        </StyledMenu>
                     </Toolbar>
                 </AppBar>
             </div>

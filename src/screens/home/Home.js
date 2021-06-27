@@ -63,6 +63,7 @@ class Home extends Component {
         this.state = {
             ownerInfo: [],
             mediaInfo: [],
+            nofilterMediaInfo: [],
             anchorEl:null,
             imagecomment:"",
             addComment:"dispComment",
@@ -110,6 +111,7 @@ class Home extends Component {
                 console.log(this.responseText);
                 that.setState({
                     mediaInfo: JSON.parse(this.responseText).data,
+                    nofilterMediaInfo: JSON.parse(this.responseText).data,
                     likesIdMap: JSON.parse(this.responseText).data.map(image => ({id: image.id, count: LIKES, selected: false})),
                     commentsIdMap: JSON.parse(this.responseText).data.map(image => ({id: image.id, comments: []}))
                 });
@@ -122,13 +124,29 @@ class Home extends Component {
 
     /* Rendering JSX elements on the Login Page as per the design requirements */
 
+    onSearchChange = e => {
+        const searchText = e.target.value.toLowerCase();
+        if (searchText !== null && searchText.length > 0){
+            this.setState({
+                mediaInfo:this.state.nofilterMediaInfo.filter(post =>
+            (post.caption !=null ? post.caption : '')
+            .split("\n")[0]
+            .toLowerCase()
+            .indexOf(searchText) > -1
+            ),
+            });
+        } else {
+            this.setState({mediaInfo:this.state.nofilterMediaInfo})
+        }
+    };
+
     render() {
 
         const {classes} = this.props;
 
         return (
             <div>
-                <Header showSearchBox={true}/>
+                <Header showSearchBox={true} searchChangeHandler={this.onSearchChange}/>
                 <div className= "cardStyle">
                     <br />
                     <GridList cellHeight={"auto"} className={classes.gridListMain} cols={2}>
