@@ -1,0 +1,22 @@
+
+/* MOVE COMMON STYLES IN COMMON.CSS & Plz remove unnecessary properties and attributes */
+
+/* Try to make css definitions uniform as in cardStyle, dispNone versus app-logo col-left */
+
+.cardStyle {
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.dispNone {
+    display: none;
+}
+
+.dispBlock {
+    display: block;
+}
+.red {
+    color:red;
+}
+
