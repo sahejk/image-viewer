@@ -148,29 +148,31 @@ class Home extends Component {
                                                 <img src={image.media_url} alt={image.caption} className="image-properties" />
                                                 <hr />
                                                 <div style={{display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-                                                <div style={{height:'80%'}}>
-                                                <Typography variant="h6">{image.caption}</Typography>
-                                                <Typography><div className="hash-tags">#greatpeople #upgrad</div></Typography>
-                                                <div className="likesFont">
-                                                <span onClick={(event)=>this.setState({likesIdMap: [...this.state.likesIdMap.filter(map => map.id!== image.id), {id:image.id,selected:!this.state.likesIdMap.find(map => map.id === image.id).selected, count:(!this.state.likesIdMap.find(map => map.id === image.id).selected) ? LIKES + 1 : LIKES}]})}>
-                                                {(this.state.likesIdMap.find(map => map.id === image.id).selected) ? <FavoriteIcon className={classes.icon} color="secondary"/>: <FavoriteBorderOutlinedIcon className={classes.icon} />}
-                                                </span>
-                                                <Typography variant="h5" >
-                                                    {this.state.likesIdMap.find(map => map.id === image.id).count} Likes
-                                                </Typography>
-                                                </div>
-                                                {this.state.commentsIdMap.find(map => map.id === image.id).comments.map(comment => <div style={{display:'flex', flexDirection:'row',alignItems:'center'}}>
-                                                <Typography variant="h6">{image.username}</Typography>
-                                                <Typography variant="subtitle1" style={{fontSize:'20px'}}>{`: ${comment}`}</Typography>
-                                                </div>)}
-                                                </div>
-                                                <div style={{flexDirection:'row',display:'flex',marginTop:'50px'}}>
-                                                <FormControl style={{width:'80%'}}>
-                                                    <InputLabel htmlFor="imagecomment">Add a Comment</InputLabel>
-                                                    <Input id={`imagecomment_${image.id}`} type="text" onChange={this.imageCommentOnChangeChangeHandler} />
-                                                </FormControl>
-                                                <Button style={{width:'18%',marginLeft:'16px',marginRight:'16px'}} id="addedcomment" variant="contained" color="primary" onClick={()=> this.addCommentOnClickHandler(image.id, document.getElementById(`imagecomment_${image.id}`).value)}>ADD</Button>
-                                                </div>
+                                                    <div style={{height:'80%'}}>
+                                                        <Typography variant="h6">{image.caption}</Typography>
+                                                        <Typography><div className="hash-tags">#greatpeople #upgrad</div></Typography>
+                                                        <div className="likesFont">
+                                                            <span onClick={(event)=>this.setState({likesIdMap: [...this.state.likesIdMap.filter(map => map.id!== image.id), {id:image.id,selected:!this.state.likesIdMap.find(map => map.id === image.id).selected, count:(!this.state.likesIdMap.find(map => map.id === image.id).selected) ? LIKES + 1 : LIKES}]})}>
+                                                                {(this.state.likesIdMap.find(map => map.id === image.id).selected) ? <FavoriteIcon className={classes.icon} color="secondary"/>: <FavoriteBorderOutlinedIcon className={classes.icon} />}
+                                                            </span>
+                                                            <Typography variant="h5" >
+                                                                {this.state.likesIdMap.find(map => map.id === image.id).count} Likes
+                                                            </Typography>
+                                                        </div>
+                                                        {this.state.commentsIdMap.find(map => map.id === image.id).comments.map(comment =>
+                                                            <div style={{display:'flex', flexDirection:'row',alignItems:'center'}}>
+                                                                <Typography variant="h6">{image.username}</Typography>
+                                                                <Typography variant="subtitle1" style={{fontSize:'20px'}}>{`: ${comment}`}</Typography>
+                                                            </div>)
+                                                        }
+                                                        <div style={{flexDirection:'row',display:'flex',marginTop:'50px'}}>
+                                                            <FormControl style={{width:'80%'}}>
+                                                                <InputLabel htmlFor="imagecomment">Add a Comment</InputLabel>
+                                                                <Input id={`imagecomment_${image.id}`} type="text" onChange={this.imageCommentOnChangeChangeHandler} />
+                                                            </FormControl>
+                                                            <Button style={{width:'18%',marginLeft:'16px',marginRight:'16px'}} id="addedcomment" variant="contained" color="primary" onClick={()=> this.addCommentOnClickHandler(image.id, document.getElementById(`imagecomment_${image.id}`).value)}>ADD</Button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -178,11 +180,8 @@ class Home extends Component {
                                 </Grid>
                             </GridListTile>
                         ))};
-
                     </GridList>
-
                 </div>
-
             </div>
 
         )
