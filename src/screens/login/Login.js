@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './Login.css';
 import Header from '../../common/header/Header';
 import Card from '@material-ui/core/Card';
@@ -10,7 +9,6 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Home from '../../screens/home/Home';
 
 
 /*Class component Login defined with constructor & it's states */
@@ -38,11 +36,11 @@ class Login extends Component {
         const accessToken = "IGQVJVRkxNdEJxZAldLYXBuRGhBQjd1Wk4wRzhwQ2hlRG1McVhUX0NWdllPY0Nrc1RNSVBjLU1nOXVkUHNuUThxanJWdFR3RnJUSFJFbkYzdFU1WUtLa2hLb0JQWlBDVzFydl83Y0l3";
 
         if (this.state.username === mockUsernameInstagram && this.state.password === mockPasswordInstagram) {
-            window.sessionStorage.setItem("access-token", accessToken);
+            sessionStorage.setItem("access-token", accessToken);
             /*this is the history object where the push method available in the history object is used
              to redirecting the user to the Home page when a user logins successfully.*/
             this.props.history.push('/home/');
-            ReactDOM.render(<Home baseUrl={this.props.baseUrl} />, document.getElementById('root'));
+            // ReactDOM.render(<Home baseUrl={this.props.baseUrl} />, document.getElementById('root'));
 
         }
 
