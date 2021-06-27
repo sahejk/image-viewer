@@ -1,15 +1,13 @@
 
-/* Try to make css definitions uniform as in cardStyle, dispNone versus app-logo col-left,Remove unnecessary css definitions */
-
 .app-header {
-    background-color: #263238;
-    height: 36px;
+  background-color: #263238;
+  height: 36px;
 }
 
 .app-logo {
-    color: #fff;
-    font-size: 18px;
-    vertical-align: center;
+  color: #fff;
+  font-size: 18px;
+  vertical-align: center;
 }
 .tabs {
   margin-bottom: 20px;
@@ -43,7 +41,7 @@
 .cardContent {
   display:flex;
   justify-content: center;
-  
+
 }
 .iconColor {
   color:red;
@@ -59,12 +57,20 @@
   color: #61dafb;
 }
 .dispComment {
-display:block;
+  display:block;
 }
 .comment-username {
   font-display: bold;
 }
-
-
-
-
+.avatar {
+  margin-left: auto;
+  float:right;
+}
+header.MuiPaper-root-17.MuiPaper-elevation4-23.MuiAppBar-root-8.MuiAppBar-positionStatic-12.MuiAppBar-colorPrimary-15 {
+  background-color: #263238;
+  color:black;
+}
+h6.MuiTypography-root-48.MuiTypography-h6-65.MuiTypography-noWrap-74.color {
+  color: #fff;
+  font-size: 18px;
+}

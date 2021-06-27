@@ -1,13 +1,22 @@
-/* WORK IN PROGRESS => **CSS Code to be written for Header.css */
 
 .app-header {
     background-color: #263238;
     height: 54px;
-    
-}
 
+}
 .app-logo {
     color: #fff;
     font-size: 18px;
-    
+
+}
+.avatar {
+    margin-left: auto;
+}
+header.MuiPaper-root-17.MuiPaper-elevation4-23.MuiAppBar-root-8.MuiAppBar-positionStatic-12.MuiAppBar-colorPrimary-15 {
+    background-color: #263238;
+    color:black;
+}
+h6.MuiTypography-root-48.MuiTypography-h6-65.MuiTypography-noWrap-74.color {
+    color: #fff;
+    font-size: 18px;
 }
