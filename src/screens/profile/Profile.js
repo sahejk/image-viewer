@@ -18,7 +18,8 @@ import testData from '../../common/Test';
 import Avatar from '@material-ui/core/Avatar';
 import pencil from '../../assets/icon/pencil.png';
 import profile_picture from '../../assets/icon/profile_pic.png';
-import SvgIcon from '@material-ui/core/SvgIcon';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 /* Defined classes styles for all relevant imported components */
 
@@ -46,6 +47,14 @@ const styles = theme => ({
         float: 'center',
         display: 'flex'
 
+    },
+    bigAvatar2: {
+        marginTop: '20px',
+        marginRight: '20px',
+        width: '100px',
+        height: '100px',
+        float: 'center',
+        display: 'flex'
     },
     gridList: {
         width: 'calc(100vw - 400px)',
@@ -87,27 +96,6 @@ const TabContainer = function (props) {
     )
 }
 
-
-function FavoriteBorderIcon(props) {
-    return (
-      <SvgIcon {...props}>
-        <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42
-        2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22
-        5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5
-        5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z" />
-      </SvgIcon>
-    );
-  }
-
-function FavoriteIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09
-       3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-    </SvgIcon>
-  );
-}
-
 TabContainer.propTypes = {
     children: PropTypes.node.isRequired
 }
@@ -129,7 +117,8 @@ class Profile extends Component {
             imageDetail: {},
             UpdateFullname: "dispNone",
             ApiFullName: "dispBlock",
-            full_name: ""
+            full_name: "",
+            comments:[],
         }
     }
 
@@ -146,6 +135,7 @@ class Profile extends Component {
                 ApiFullName: "dispNone",
                 modalIsOpen: false,
                 favClick:false,
+                comments:[],
             });
         }
     }
@@ -165,7 +155,7 @@ class Profile extends Component {
     }
 
     closeEditModalHandler = () => {
-        this.setState({ modalIsOpen: false,favClick:false });
+        this.setState({ modalIsOpen: false,favClick:false,comments:[]});
     }
 
     openImageModalHandler = (imageId) => {
@@ -179,6 +169,7 @@ class Profile extends Component {
         this.setState({
             imagemodalIsOpen: false,
             favClick: false,
+            comments:[],
         });
     }
 
@@ -221,6 +212,10 @@ class Profile extends Component {
         this.setState({ currentState });
     }
 
+    addCommentOnClickHandler = (text) => {
+        this.setState({comments: [...this.state.comments, text]})
+    }
+
     render() {
 
         const { classes } = this.props;
@@ -239,7 +234,7 @@ class Profile extends Component {
                         <div className="column-center">
                             <div className="row1">
                                 <div className="col-left">
-                                    {<Avatar src={profile_picture} className={classes.bigAvatar}/>}
+                                    {<Avatar src={profile_picture} className={classes.bigAvatar2}/>}
                                 </div>
 
                                 <div className="col-center">
@@ -328,11 +323,15 @@ class Profile extends Component {
 
                                     <Typography variant="h6">{this.state.selectedImage !=null ? this.state.mediaInfo.find(img => img.id === this.state.selectedImage).caption : '' }</Typography>
                                     <Typography variant="caption"><div className="hash-tags">#images #description</div></Typography>
+                                    {this.state.comments.map(comment => <div style={{display:'flex', flexDirection:'row',alignItems:'center'}}>
+                                    <Typography variant="h6">{this.state.selectedImage !=null ? this.state.mediaInfo.find(img => img.id === this.state.selectedImage).username : '' }</Typography>
+                                    <Typography variant="subtitle1" style={{fontSize:'20px'}}>{`: ${comment}`}</Typography>
+                                    </div>)}
                                 </div>
                                 <div className="row-card-down">
-                                    <div style={{display: 'flex',flexDirection:'row',alignItems:'cemter',textAlign:'center'}}>
+                                    <div style={{display: 'flex',flexDirection:'row',alignItems:'center',textAlign:'center'}}>
                                     <span onClick={(event)=>this.setState({favClick: !this.state.favClick})}>
-                                    {this.state.favClick === true?<FavoriteIcon className={classes.icon}/>: <FavoriteBorderIcon className={classes.icon}/>}
+                                    {this.state.favClick === true?<FavoriteIcon className={classes.icon} color="secondary"/>: <FavoriteBorderOutlinedIcon className={classes.icon} />}
                                     </span>
                                     <span style={{marginLeft:'8px',marginTop:'12px'}}>{this.state.favClick === true ? (LIKES+ 1): LIKES} likes</span>
                                     </div>
@@ -341,7 +340,7 @@ class Profile extends Component {
                                         <InputLabel htmlFor="imagecomment">Add a Comment</InputLabel>
                                         <Input id="imagecomment" type="text" onChange={this.imageCommentChangeHandler} />
                                     </FormControl>
-                                    <Button variant="contained" color="primary" onClick={this.addCommentOnClickHandler}>ADD</Button>
+                                    <Button variant="contained" color="primary" onClick={()=> this.addCommentOnClickHandler(document.getElementById('imagecomment').value)}>ADD</Button>
                                     </div>
                                 </div>
                             </div>
