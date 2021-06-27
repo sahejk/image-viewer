@@ -10,7 +10,7 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FormHelperText from '@material-ui/core/FormHelperText';
-// import Home from '../../screens/home/Home';
+import Home from '../../screens/home/Home';
 
 
 /*Class component Login defined with constructor & it's states */
@@ -35,13 +35,13 @@ class Login extends Component {
 
         const mockUsernameInstagram = "pgdsd_sahej";
         const mockPasswordInstagram = "temp_1234";
-        const accessToken = "IGQVJXUkU4WldSOTg5RWpNdTVsQ1EtMWJiODV3bnMyWFJNTUxSMlpHNE51V3U4VUJjSTlweTBjdDUzUUdWOHQ3aUJQQTduZAFBZAQlMzTHJlTDVFb3ZA2TnFtXy1TRVdDUnVoM005NXVIWXoySFh5ZA1RpNgZDZD";
+        const accessToken = "IGQVJVRkxNdEJxZAldLYXBuRGhBQjd1Wk4wRzhwQ2hlRG1McVhUX0NWdllPY0Nrc1RNSVBjLU1nOXVkUHNuUThxanJWdFR3RnJUSFJFbkYzdFU1WUtLa2hLb0JQWlBDVzFydl83Y0l3";
 
         if (this.state.username === mockUsernameInstagram && this.state.password === mockPasswordInstagram) {
             window.sessionStorage.setItem("access-token", accessToken);
             /*this is the history object where the push method available in the history object is used
              to redirecting the user to the Home page when a user logins successfully.*/
-            // this.props.history.push('/home/');
+            this.props.history.push('/home/');
 
         }
 

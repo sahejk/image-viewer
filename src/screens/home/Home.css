@@ -1,0 +1,70 @@
+
+/* Try to make css definitions uniform as in cardStyle, dispNone versus app-logo col-left,Remove unnecessary css definitions */
+
+.app-header {
+    background-color: #263238;
+    height: 36px;
+}
+
+.app-logo {
+    color: #fff;
+    font-size: 18px;
+    vertical-align: center;
+}
+.tabs {
+  margin-bottom: 20px;
+}
+
+.flex-container {
+  display: flex;
+}
+.grid-item {
+  margin: 15px;
+}
+
+.cardStyle {
+  display: flex;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.image-properties {
+  display:flex;
+  justify-content: center;
+  padding: 20px;
+  width: 'auto';
+  height:'auto';
+
+}
+.cardHeader {
+  display:flex;
+  float:flex-start;
+}
+.cardContent {
+  display:flex;
+  justify-content: center;
+  
+}
+.iconColor {
+  color:red;
+}
+.likesFont {
+  font-size: 200px;
+  display:flex;
+  justify-content: flex-start;
+  vertical-align: center;
+}
+.hash-tags {
+  font-size: 24px;
+  color: #61dafb;
+}
+.dispComment {
+display:block;
+}
+.comment-username {
+  font-display: bold;
+}
+
+
+
+
