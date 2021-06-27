@@ -48,7 +48,7 @@ const styles = theme => ({
     gridListMain: {
         transform: 'translateZ(0)',
         cursor: 'pointer',
-
+        width: '80%',
     },
 });
 
@@ -153,8 +153,7 @@ class Home extends Component {
                         {this.state.mediaInfo.map(image => (
 
                             <GridListTile key={"image" + image.id} cols={image.cols || 1}>
-                                <Grid container className={classes.root} spacing={16}>
-                                    <Grid item>
+                                <Grid container className={classes.root} spacing={16} item>
                                         <Card className={classes.card}>
                                             <CardHeader
                                                 avatar={
@@ -194,7 +193,6 @@ class Home extends Component {
                                                 </div>
                                             </CardContent>
                                         </Card>
-                                    </Grid>
                                 </Grid>
                             </GridListTile>
                         ))};
