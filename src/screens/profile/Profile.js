@@ -17,13 +17,18 @@ import GridListTile from '@material-ui/core/GridListTile';
 import testData from '../../common/Test';
 import Avatar from '@material-ui/core/Avatar';
 import pencil from '../../assets/icon/pencil.png';
-import hearticon from '../../assets/icon/hearticon.svg';
 import profile_picture from '../../assets/icon/profile_pic.png';
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 /* Defined classes styles for all relevant imported components */
 
-const styles = theme => ({
+const LIKES = 10;
 
+const styles = theme => ({
+     icon: {
+        margin: '2px',
+        fontSize: 32,
+     },
     root: {
         flexGrow: 1,
         display: 'flex',
@@ -34,7 +39,8 @@ const styles = theme => ({
 
     },
     bigAvatar: {
-        margin: '20px',
+        marginTop: '20px',
+        marginRight: '20px',
         width: '60px',
         height: '60px',
         float: 'center',
@@ -42,8 +48,7 @@ const styles = theme => ({
 
     },
     gridList: {
-        width: 1100,
-        height: 800,
+        width: 'calc(100vw - 400px)',
     },
 
 });
@@ -82,6 +87,27 @@ const TabContainer = function (props) {
     )
 }
 
+
+function FavoriteBorderIcon(props) {
+    return (
+      <SvgIcon {...props}>
+        <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42
+        2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22
+        5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5
+        5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z" />
+      </SvgIcon>
+    );
+  }
+
+function FavoriteIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09
+       3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </SvgIcon>
+  );
+}
+
 TabContainer.propTypes = {
     children: PropTypes.node.isRequired
 }
@@ -93,7 +119,9 @@ class Profile extends Component {
     constructor() {
         super();
         this.state = {
+            favClick:false,
             modalIsOpen: false,
+            selectedImage: null,
             fullnameRequired: "dispNone",
             fullname: "",
             ownerInfo: [],
@@ -116,7 +144,8 @@ class Profile extends Component {
                 full_name: this.state.fullname,
                 UpdateFullname: "dispBlock",
                 ApiFullName: "dispNone",
-                modalIsOpen: false
+                modalIsOpen: false,
+                favClick:false,
             });
         }
     }
@@ -136,18 +165,20 @@ class Profile extends Component {
     }
 
     closeEditModalHandler = () => {
-        this.setState({ modalIsOpen: false });
+        this.setState({ modalIsOpen: false,favClick:false });
     }
 
     openImageModalHandler = (imageId) => {
         this.setState({
             imagemodalIsOpen: true,
+            selectedImage: imageId,
         });
     }
 
     closeImageModalHandler = () => {
         this.setState({
-            imagemodalIsOpen: false
+            imagemodalIsOpen: false,
+            favClick: false,
         });
     }
 
@@ -208,9 +239,7 @@ class Profile extends Component {
                         <div className="column-center">
                             <div className="row1">
                                 <div className="col-left">
-                                    {<Avatar className={classes.bigAvatar}>
-                                        <img src={profile_picture} alt={"logo"} />
-                                    </Avatar>}
+                                    {<Avatar src={profile_picture} className={classes.bigAvatar}/>}
                                 </div>
 
                                 <div className="col-center">
@@ -221,7 +250,7 @@ class Profile extends Component {
                                         <div className="col-r">Followed By : {testData[0].followed_by}</div>
                                     </div></span>
                                     <div className="row-three">
-                                        <span><div className={this.state.ApiFullName}>{this.state.ownerInfo.full_name}</div><div className={this.state.UpdateFullname}>{this.state.full_name}</div></span>
+                                        <span style={{marginRight:'12px'}}><div className={this.state.ApiFullName}>{this.state.ownerInfo.username}</div><div className={this.state.UpdateFullname}>{this.state.full_name}</div></span>
                                         <Button variant="fab" color="secondary" className="edit-icon-button"><img src={pencil} alt={"pencil-logo"} onClick={this.openEditModalHandler} /></Button>
                                     </div>
                                 </div>
@@ -267,7 +296,7 @@ class Profile extends Component {
                     <GridList cellHeight={300} className={classes.gridList} cols={3}>
                         {this.state.mediaInfo.map(image => (
                             <GridListTile key={image.id} cols={image.cols || 1}>
-                                <img src={image.media_url} alt={image.caption} onClick={this.openImageModalHandler} />
+                                <img src={image.media_url} alt={image.caption} onClick={() => this.openImageModalHandler(image.id)} />
                             </GridListTile>
                         ))}
                     </GridList>
@@ -283,34 +312,37 @@ class Profile extends Component {
                         <div className="row-card">
 
                             <div className="column-card-left" >
-                                <img src={testData[0].url} alt={"uploadedpic1"} />
+                                <img src={this.state.selectedImage !=null ? this.state.mediaInfo.find(img => img.id === this.state.selectedImage).media_url : '' } style={{width: '96%'}} alt={"uploadedpic1"} />
 
                             </div>
 
                             <div className="column-card-right" >
                                 <div className="row-card-up">
-
+                                    <div style={{display:'flex', flexDirection:'row',alignItems:'center'}}>
                                     {
-                                        <Avatar className={classes.bigAvatar}>
-                                            <img src={profile_picture} alt={"logo"} /></Avatar>
+                                        <Avatar className={classes.bigAvatar} src={profile_picture}/>
                                     }
-                                    {testData[0].username}
-
+                                    {this.state.selectedImage !=null ? this.state.mediaInfo.find(img => img.id === this.state.selectedImage).username : '' }
+                                    </div>
                                     <hr />
 
-                                    <Typography variant="caption">{testData[0].full_name}</Typography>
-                                    <Typography>#images #description</Typography>
+                                    <Typography variant="h6">{this.state.selectedImage !=null ? this.state.mediaInfo.find(img => img.id === this.state.selectedImage).caption : '' }</Typography>
+                                    <Typography variant="caption"><div className="hash-tags">#images #description</div></Typography>
                                 </div>
-
-                                <br /><br />
                                 <div className="row-card-down">
-                                    <img src={hearticon} alt={"heartlogo"} onClick={() => this.iconClickHandler()} className="iconColor" />
-
+                                    <div style={{display: 'flex',flexDirection:'row',alignItems:'cemter',textAlign:'center'}}>
+                                    <span onClick={(event)=>this.setState({favClick: !this.state.favClick})}>
+                                    {this.state.favClick === true?<FavoriteIcon className={classes.icon}/>: <FavoriteBorderIcon className={classes.icon}/>}
+                                    </span>
+                                    <span style={{marginLeft:'8px',marginTop:'12px'}}>{this.state.favClick === true ? (LIKES+ 1): LIKES} likes</span>
+                                    </div>
+                                    <div>
                                     <FormControl >
                                         <InputLabel htmlFor="imagecomment">Add a Comment</InputLabel>
                                         <Input id="imagecomment" type="text" onChange={this.imageCommentChangeHandler} />
                                     </FormControl>
                                     <Button variant="contained" color="primary" onClick={this.addCommentOnClickHandler}>ADD</Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

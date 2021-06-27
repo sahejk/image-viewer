@@ -131,8 +131,7 @@ class Home extends Component {
 
                                             <CardHeader
                                                 avatar={
-                                                    <Avatar className={classes.bigAvatar}>
-                                                        <img src={profile_picture} alt={"logo"} /></Avatar>
+                                                    <Avatar src={profile_picture} / >
                                                 }
                                                 title={image.username}
                                                 subheader={new Date(image.timestamp).toUTCString()} />
@@ -141,8 +140,8 @@ class Home extends Component {
                                             <CardContent>
                                                 <img src={image.media_url} alt={image.text} className="image-properties" />
                                                 <hr />
-                                                <Typography>{image.caption}</Typography>
-                                                <Typography><div className="hash-tags">#{image.tags}</div></Typography>
+                                                <Typography variant="h6">{image.caption}</Typography>
+                                                <Typography><div className="hash-tags">#greatpeople #upgrad</div></Typography>
                                                 <div className="likesFont">
                                                     <Typography variant="h5" >
                                                         <img src={hearticon} alt={"heartlogoTransparent"}   onClick={() => this.iconClickHandler} />

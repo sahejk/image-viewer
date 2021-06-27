@@ -69,10 +69,13 @@
     font-size: 18px;
 }
 
-.row-three {
+.edit-icon-button {
+    margin-left: 12px;
+}
 
+.row-three {
     display:flex;
-    align-items: flex-end;
+    align-items: center;
     font-size: 24px;
 }
 .dispNone {
@@ -104,7 +107,9 @@
     height:100%;
 }
 .column-card-right {
-
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     float: right;
     width: 50%;
 
@@ -128,7 +133,7 @@
 }
 .row-card-down {
     display:flex;
-    flex-direction:row;
+    flex-direction:column;
     float:bottom;
-
+    margin-bottom: 24px;
 }
